@@ -6,6 +6,22 @@
         <input value="<%= @results.user_supplied_keywords %>" type="text" name="keywords" id="finder-keyword-search" aria-controls="js-search-results-info" class='text'/>
       </div>
       <%= render facet_collection.filters %>
+
+      <div class="filter">
+        <label class="legend">World location</label>
+        <%= render 'govuk_publishing_components/components/accessible_autocomplete', data_attributes: {
+            tracking: true,
+            track_category: "filterClicked",
+            track_action: "World location",
+            track_options: {
+                dimension28: 4,
+                dimension29: "test dimension"
+            }
+        },
+          options: [['', ''],['France', 'fr'], ['Germany', 'de'], ['United Kingdom', 'gb']]
+        %>
+      </div>
+
       <input type="submit" value="Filter results" class="button js-live-search-fallback"/>
     </form>
   </div>
