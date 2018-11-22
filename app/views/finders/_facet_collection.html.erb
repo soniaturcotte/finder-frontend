@@ -8,9 +8,11 @@
       <%= render facet_collection.filters %>
 
       <div class="filter">
-        <label class="legend">World location</label>
-        <%= render 'govuk_publishing_components/components/accessible_autocomplete', data_attributes: {
-            tracking: true,
+        <%= render 'govuk_publishing_components/components/accessible_autocomplete',
+           label: {
+               text: "Countries"
+           },
+           data_attributes: {
             track_category: "filterClicked",
             track_action: "World location",
             track_options: {
