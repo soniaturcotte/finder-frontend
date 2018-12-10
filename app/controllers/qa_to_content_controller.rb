@@ -8,8 +8,6 @@ class QaToContentController < ApplicationController
   include GdsApi::Helpers
 
   def show
-    return error_not_found unless ENV["FINDER_FRONTEND_ENABLE_QA_TO_CONTENT"]
-
     if params[first_question["id"]].present?
       redirect_to_guidance params[first_question["id"]]
     else
