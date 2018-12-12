@@ -3,6 +3,7 @@ require 'gds_api/helpers'
 class FindersController < ApplicationController
   layout "finder_layout"
   include GdsApi::Helpers
+  include SupergroupFinderHelper
 
   before_action do
     expires_in(5.minutes, public: true)
@@ -13,6 +14,9 @@ class FindersController < ApplicationController
   def show
     respond_to do |format|
       format.html do
+        if wants_different_supergroup_finder?
+          redirect_to requested_supergroup_finder_path
+        end
         @results = results
         @content_item = raw_finder
         @breadcrumbs = fetch_breadcrumbs

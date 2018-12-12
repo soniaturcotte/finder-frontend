@@ -1,4 +1,18 @@
 class Supergroups
+  # These are from govuk_document_types/data/supertypes.yml
+  CONTENT_PURPOSE_SUPERGROUPS = %w(
+    news_and_communications
+    services
+    guidance_and_regulation
+    policy_and_engagement
+    research_and_statistics
+    transparency
+  )
+
+  def self.all
+    lookup(CONTENT_PURPOSE_SUPERGROUPS)
+  end
+
   def self.lookup(keys)
     raise_not_found(nil) unless keys
     keys = [keys] if keys.is_a?(String)
