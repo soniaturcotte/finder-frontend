@@ -19,7 +19,11 @@ class EmailAlertSubscriptionsController < ApplicationController
 private
 
   def content
-    @content ||= Services.content_store.content_item(request.path)
+    @content ||= Services.content_store.content_item(
+      Rails.cache.fetch(request.path, expires_in: 1.day) do
+        request.path
+      end
+    )
   end
 
   def signup_presenter

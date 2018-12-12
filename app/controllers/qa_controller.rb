@@ -22,6 +22,7 @@ private
   end
 
   def facets
+		binding.pry
     @facets ||= raw_finder["details"]["facets"].select do |facet|
       facet["type"] == "text" && facet["filterable"] && qa_config["pages"][facet["key"]]["show_in_qa"]
     end

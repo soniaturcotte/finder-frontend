@@ -3,12 +3,37 @@ require 'gds_api/rummager'
 require 'gds_api/email_alert_api'
 
 module Services
+
+	class GdsApi::ContentStore
+		def content_item(base_path)
+			Rails.cache.fetch(get_json(content_item_url(base_path)), expires_in: 1.day) do
+				get_json(content_item_url(base_path))
+			end
+		rescue GdsApi::HTTPNotFound => e
+			raise ItemNotFound.build_from(e)
+		end
+	end
+
+	# binding.pry
+
   def self.content_store
     @content_store ||= GdsApi::ContentStore.new(
-      Plek.find("content-store"),
-      disable_cache: Rails.env.development?
+        Plek.find("content-store")
     )
-  end
+
+
+
+
+# 	def content_item(base_path)
+# 	  Rails.cache.fetch(get_json(content_item_url(base_path)), expires_in: 1.day) do
+# 	    get_json(content_item_url(base_path))
+# 	  end
+# rescue GdsApi::HTTPNotFound => e
+# 	  raise ItemNotFound.build_from(e)
+# 	end
+
+
+	end
 
   def self.rummager
     @rummager ||= GdsApi::Rummager.new(
