@@ -1,4 +1,7 @@
 class SignupPresenter
+  include ActionView::Helpers::UrlHelper
+  include ActionView::Helpers::CaptureHelper
+
   attr_reader :content_item, :params
 
   def initialize(content_item, params)
@@ -24,6 +27,7 @@ class SignupPresenter
 
   def choices?
     multiple_facet_choice_data.present? || single_facet_choice_data[0]["facet_choices"].present?
+    return true
   end
 
   def choices
@@ -31,21 +35,24 @@ class SignupPresenter
   end
 
   def choices_formatted
-    choices.map do |choice|
-      {
-        label: choice['facet_name'],
-        value: choice['facet_id'],
-        checked: choice['prechecked'],
-        items: choice['facet_choices'].map do |facet_choice|
-          {
-            name: "filter[#{choice['facet_id']}][]",
-            label: facet_choice['radio_button_name'],
-            value: facet_choice['key'],
-            checked: facet_choice['prechecked'] || selected_choices.fetch(choice['facet_id'], []).include?(facet_choice['key'])
-          }
-        end
-      }
+    formatted_choices = choices.map do |choice|
+      if choice.dig("facet_choices")
+        {
+          label: choice['facet_name'],
+          value: choice['facet_id'],
+          checked: choice['prechecked'],
+          items: choice['facet_choices'].map do |facet_choice|
+            {
+              name: "filter[#{choice['facet_id']}][]",
+              label: facet_choice['radio_button_name'],
+              value: facet_choice['key'],
+              checked: facet_choice['prechecked'] || selected_choices.fetch(choice['facet_id'], []).include?(facet_choice['key'])
+            }
+          end
+        }
+      end
     end
+    formatted_choices.compact
   end
 
   def target

@@ -4,6 +4,7 @@ class EmailAlertSubscriptionsController < ApplicationController
   layout "finder_layout"
   protect_from_forgery except: :create
   before_action :signup_presenter
+  helper_method :subscription_path
 
   def new; end
 
@@ -19,11 +20,16 @@ class EmailAlertSubscriptionsController < ApplicationController
 private
 
   def content
-    @content ||= Services.content_store.content_item(request.path)
+    @content ||= FinderApi.new(request.path, params).content_item
   end
 
   def signup_presenter
     @signup_presenter ||= SignupPresenter.new(content, params)
+  end
+
+  def subscription_path
+    SignupUrlPresenter.new(content, view_context).url
+    # email_alert_subscriptions_path(hidden_params: Signup)
   end
 
   def valid_choices?

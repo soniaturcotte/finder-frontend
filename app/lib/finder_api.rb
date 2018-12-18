@@ -29,6 +29,7 @@ private
 
   def development_env_finder_json
     return news_and_communications_json if is_news_and_communications?
+    return news_and_communications_email_signup_json if is_news_and_communications_email_signup_json?
 
     ENV["DEVELOPMENT_FINDER_JSON"]
   end
@@ -36,6 +37,11 @@ private
   def news_and_communications_json
     # Hard coding this in during development
     "features/fixtures/news_and_communications.json"
+  end
+
+  def news_and_communications_email_signup_json
+    # Hard coding this in during development
+    "features/fixtures/news_and_communications_email_signup.json"
   end
 
   def merge_and_deduplicate(search_response)
@@ -140,6 +146,10 @@ private
 
   def is_news_and_communications?
     base_path == "/news-and-communications"
+  end
+
+  def is_news_and_communications_email_signup_json?
+    base_path == "/news-and-communications/email-signup"
   end
 
   def registries
