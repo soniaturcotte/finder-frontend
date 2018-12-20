@@ -109,7 +109,7 @@ RSpec.describe FinderPresenter do
     it "returns sort options with relevance enabled when keywords is not blank" do
       expected_options = "<option value=\"most-viewed\">Most viewed</option>\n<option value=\"updated-newest\">Updated (newest)</option>\n<option value=\"relevance\">Relevance</option>"
 
-      presenter = described_class.new(content_item(sort_options_with_relevance), { "keywords" => "something not blank" })
+      presenter = described_class.new(content_item(sort_options_with_relevance), "keywords" => "something not blank")
 
       expect(presenter.sort_options).to eql(expected_options)
     end
@@ -117,7 +117,7 @@ RSpec.describe FinderPresenter do
     it "returns sort options with no option selected when order is specified but does not exist in options" do
       expected_options = "<option value=\"most-viewed\">Most viewed</option>\n<option value=\"updated-newest\">Updated (newest)</option>"
 
-      presenter = described_class.new(content_item(sort_options_without_relevance), { "order" => "option_that_does_not_exist" })
+      presenter = described_class.new(content_item(sort_options_without_relevance), "order" => "option_that_does_not_exist")
 
       expect(presenter.sort_options).to eql(expected_options)
     end
@@ -133,7 +133,7 @@ RSpec.describe FinderPresenter do
     it "returns sort options with option selected when order is specified and exists in options" do
       expected_options = "<option value=\"most-viewed\">Most viewed</option>\n<option selected=\"selected\" value=\"updated-newest\">Updated (newest)</option>"
 
-      presenter = described_class.new(content_item(sort_options_without_relevance), { "order" => "updated-newest" })
+      presenter = described_class.new(content_item(sort_options_without_relevance), "order" => "updated-newest")
 
       expect(presenter.sort_options).to eql(expected_options)
     end
